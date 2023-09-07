@@ -6,14 +6,15 @@ import { fetchCharacter } from "../store/characterSlice";
 import Fab from "../components/Fab/Fab";
 import Skeleton from "react-loading-skeleton";
 import { fetchLocation } from "../store/locationSlice";
+import { fetchEpisode } from "../store/episodeSlice";
 
-export default function LocationDetails() {
+export default function EpisodeDetails() {
   const { id } = useParams();
-  const data = useAppSelector((state) => state.location);
+  const data = useAppSelector((state) => state.episode);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (id) dispatch(fetchLocation(+id || 0));
+    if (id) dispatch(fetchEpisode(+id || 0));
   }, [id]);
 
   return (
@@ -24,15 +25,11 @@ export default function LocationDetails() {
           <div className="character__body">
             <h3>{data.data.name}</h3>
             <div className="character__flex">
-              <span>{data.data.dimension}</span>
+              <span>{data.data.episode}</span>
             </div>
             <div className="character__item">
-              <h4>Residents:</h4>
-              <p>{data.data.residents.join(",")}</p>
-            </div>
-            <div className="character__item">
-              <h4>Type:</h4>
-              <p>{data.data.type}</p>
+              <h4>Characters:</h4>
+              <p>{data.data.characters.join(",")}</p>
             </div>
           </div>
         )}

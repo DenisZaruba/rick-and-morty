@@ -34,7 +34,6 @@ const Select = ({ options, onChange, value }: SelectProps) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  console.log("isOpen", isOpen);
 
   return (
     <>

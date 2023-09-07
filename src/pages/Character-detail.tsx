@@ -15,7 +15,6 @@ export default function CharacterDetail() {
   useEffect(() => {
     if (id) dispatch(fetchCharacter(+id || 0));
   }, [id]);
-  console.log(data, "data");
 
   return (
     <Layout>

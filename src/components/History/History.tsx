@@ -7,7 +7,6 @@ export default function History({ isOpen }: { isOpen: boolean }) {
   const drawerContext = useContext(DrawerContext);
 
   const history = localStorage.getItem("@testHistory");
-  console.log("history", history);
 
   return (
     <Drawer anchor={"right"} open={isOpen} onClose={() => drawerContext?.setIsOpenDrawer(false)}>

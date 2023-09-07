@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Layout from "../components/layouts/Layout";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { fetchRicksCharacter, fetchRicksEpisodes, fetchRicksLocation } from "../store/homeSlice";
@@ -15,10 +15,13 @@ import EpisodesItem from "../components/HomeItems/EpisodesItem";
 import Pagination from "../components/Pagination/Pagination";
 import History from "../components/History/History";
 import Fab from "../components/Fab/Fab";
+import { DrawerContext } from "../context/DrawerContext";
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.home);
+
+  const drawerContext = useContext(DrawerContext);
 
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -218,7 +221,6 @@ export default function Home() {
 
   return (
     <>
-      {/* <History isOpen /> */}
       <Layout>
         <div className="home__header">
           <div>
@@ -372,17 +374,24 @@ export default function Home() {
           <p className="home__empty">Oops... Data not found</p>
         )}
         <div className="home__pagination">
-          {(data.currentFilter === "character" && data.data.characters.length !== 0) ||
-            (data.currentFilter === "location" && data.data.locations.length !== 0) ||
-            (data.currentFilter === "episode" && data.data.episodes.length !== 0 && (
-              <Pagination
-                currentPage={+(searchParams.get("page") || 1)}
-                totalPages={data.data.info?.pages || 1}
-                onPageChange={handleChangePage}
-              />
-            ))}
+          {
+            <Pagination
+              currentPage={+(searchParams.get("page") || 1)}
+              totalPages={data.data.info?.pages || 1}
+              onPageChange={handleChangePage}
+            />
+          }
         </div>
-        <Fab isMain />
+        <Fab
+          data={
+            data.data.characters.length > 0
+              ? data.data.characters
+              : data.data.locations.length > 0
+              ? data.data.locations
+              : data.data.episodes
+          }
+          isMain
+        />
       </Layout>
     </>
   );

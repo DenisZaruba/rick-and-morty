@@ -1,26 +1,37 @@
 import { Drawer } from "@mui/material";
-import React, { useState } from "react";
+import { useContext } from "react";
+import { DrawerContext } from "../../context/DrawerContext";
+import styles from "./styles.module.scss";
 
 export default function History({ isOpen }: { isOpen: boolean }) {
-  // const [state,setState] = useState('right')
-  // const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-  //   if (
-  //     event.type === "keydown" &&
-  //     ((event as React.KeyboardEvent).key === "Tab" || (event as React.KeyboardEvent).key === "Shift")
-  //   ) {
-  //     return;
-  //   }
+  const drawerContext = useContext(DrawerContext);
 
-  //   setState({ ...state, [anchor]: open });
-  // };
+  const history = localStorage.getItem("@testHistory");
+  console.log("history", history);
 
   return (
-    <Drawer
-      anchor={"right"}
-      open={isOpen}
-      // onClose={toggleDrawer(anchor, false)}
-    >
-      1
+    <Drawer anchor={"right"} open={isOpen} onClose={() => drawerContext?.setIsOpenDrawer(false)}>
+      <div className={styles.wrapper}>
+        <h4 className={styles.title}>History:</h4>
+        <ul>
+          {history?.split("|")?.map((item, index) => {
+            return (
+              <li key={index}>
+                {item.split("&")?.map((item, index) => {
+                  if (item.split("=")?.[1]?.length > 0) {
+                    return (
+                      <div key={index}>
+                        {item.split("=")?.[0] === "filterBy" ? "Type of Characters: " : `${item.split("=")?.[0]}: `}{" "}
+                        {item.split("=")?.[1]}
+                      </div>
+                    );
+                  }
+                })}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </Drawer>
   );
 }

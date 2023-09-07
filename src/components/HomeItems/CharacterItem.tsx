@@ -1,11 +1,26 @@
 import styles from "./styles.module.scss";
 import { Character } from "../../store/types/homeTypes";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 export default function CharacterItem({ data }: { data: Character }) {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    localStorage.setItem(
+      "@testHistory",
+      localStorage.getItem("@testHistory")
+        ? `${localStorage.getItem("@testHistory")}|Visit Page=${data.name}`
+        : `Visit Page=${data.name}`,
+    );
+    navigate(`/character-detail/${data.id}`);
+  };
+
   return (
-    <div className={styles.character}>
-      <div className={styles.character__image}>{/* <img src={data.image} alt="image of character" /> */}</div>
+    <div onClick={handleNavigate} className={styles.character}>
+      <div className={styles.character__image}>
+        <img src={data.image} alt="image of character" />
+      </div>
       <div className={styles.character__body}>
         <h3>{data.name}</h3>
         <div className={styles.character__body_flex}>

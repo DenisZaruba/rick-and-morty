@@ -1,0 +1,33 @@
+@import "./scss/vars.scss";
+@import "./scss/mixins.scss";
+.home {
+  &__header {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 161px;
+    &_second {
+      display: flex;
+      gap: 28px;
+    }
+  }
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 27px;
+  }
+  &__filters {
+    position: relative;
+    &_body {
+      position: absolute;
+      top: 55px;
+    }
+  }
+  &__empty {
+    @include heading_2;
+    text-align: center;
+    color: $white;
+  }
+  &__pagination {
+    margin-top: 22px;
+  }
+}
